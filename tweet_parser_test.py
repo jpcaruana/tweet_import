@@ -49,9 +49,10 @@ def test_read_tweet_rt():
     assert tweet.text == 'Beau boulot ! RT “@bam_thomas: En ligne tout chaud http://t.co/lv60oyicwD #leanagileCamp”'
     assert tweet.lang == 'fr'
     assert tweet.date == datetime(2013, 7, 10, 13, 35, 40)
-    assert tweet.hashtags == set(['leanagileCamp', 'some_hashtag'])
-    assert tweet.linked_urls == set(['http://leanagilecamp.fr', 'https://sommeurl.fr'])
+    assert tweet.hashtags == {'leanagileCamp', 'some_hashtag'}
+    assert tweet.linked_urls == {'http://leanagilecamp.fr', 'https://sommeurl.fr'}
     assert tweet.linked_photos == set()
+    assert tweet.user_mentions == {'bam_thomas'}
     assert not tweet.retweeted
     assert tweet.retweets == 0
     assert tweet.favorited

@@ -15,17 +15,18 @@ def format_tweet_url(author: str, tweet_id: str) -> str:
 
 
 class Tweet():
-    def __init__(self, tweet_as_dict: dict, author: str, user_class: str = 'twitter_user'):
+    def __init__(self, tweet_as_dict: dict, author: str):
         """
         Create a tweet from its reprensentation (use json.loads with the exported js from Twitter
 
         :param tweet_as_dict: parsed json of the tweet
         :param author: author name of the tweet (the @something part)
-        :param user_class: (optional) useful when you want simple HTML version of the tweet. Defaults to 'twitter_user'
         """
         self.dict = tweet_as_dict
         self.author = author
-        self.user_class = user_class
+
+    def format(self, formatter):
+        return formatter(self)
 
     @property
     def id(self) -> str:
@@ -54,17 +55,31 @@ class Tweet():
     @property
     def hashtags(self) -> Iterable[str]:
         hashtags = self.dict.get('entities', {}).get('hashtags', [])
-        return set([h.get('text') for h in hashtags])
+        return {h.get('text') for h in hashtags}
 
     @property
     def linked_urls(self) -> Iterable[str]:
         urls = self.dict.get('entities', {}).get('urls', [])
-        return set([u.get('expanded_url') for u in urls])
+        return {u.get('expanded_url') for u in urls}
+
+    @property
+    def user_mentions(self) -> Iterable[str]:
+        user_mentions = self.dict.get('entities', {}).get('user_mentions', [])
+        return {u.get('screen_name') for u in user_mentions}
+
+    @property
+    def complete_urls(self) -> Iterable[str]:
+        urls = self.dict.get('entities', {}).get('urls', [])
+        return [dict(
+            url=u.get('url'),
+            expanded_url=u.get('expanded_url'),
+            display_url=u.get('display_url')
+        ) for u in urls]
 
     @property
     def linked_photos(self) -> Iterable[str]:
         medias = self.dict.get('entities', {}).get('media', [])
-        return set([m.get('media_url_https') for m in medias if m.get('type') == 'photo'])
+        return {m.get('media_url_https') for m in medias if m.get('type') == 'photo'}
 
     @property
     def retweeted(self) -> bool:
