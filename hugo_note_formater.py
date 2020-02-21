@@ -6,9 +6,9 @@ from tweet_parser import Tweet
 TEMPLATE = """+++
 date = "{date}"
 title = "{title}"
-slug = ""
 categories = ["twitter"]
 tags = {tags}
+original_url = "{original_url}"
 +++
 
 {content}
@@ -18,14 +18,24 @@ tags = {tags}
 def formater(tweet: Tweet) -> str:
     return TEMPLATE.format(
         date=tweet.date.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        title=tweet.text,
+        title=format_title(tweet),
         content=format_content(tweet),
         tags=format_list(tweet.hashtags),
+        original_url=tweet.original_url,
     )
 
 
+def format_title(tweet):
+    title = tweet.text.split('\n')[0]
+    title = title.replace('[', '')
+    title = title.replace(']', '')
+    return title
+
+
 def format_content(tweet):
-    content = tweet.text
+    content = tweet.text.replace('\n', '\n\n')
+    content = content.replace(r'[', '\\[')
+    content = content.replace(']', '\\]')
     for url in tweet.complete_urls:
         content = content.replace(url.get('url'), f"[{url.get('display_url')}]({url.get('expanded_url')})")
     for um in tweet.user_mentions:
