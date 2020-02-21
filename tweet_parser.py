@@ -59,7 +59,12 @@ class Tweet():
     @property
     def linked_urls(self) -> Iterable[str]:
         urls = self.dict.get('entities', {}).get('urls', [])
-        return set([h.get('expanded_url') for h in urls])
+        return set([u.get('expanded_url') for u in urls])
+
+    @property
+    def linked_photos(self) -> Iterable[str]:
+        medias = self.dict.get('entities', {}).get('media', [])
+        return set([m.get('media_url_https') for m in medias if m.get('type') == 'photo'])
 
     @property
     def retweeted(self) -> bool:
