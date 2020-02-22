@@ -29,7 +29,6 @@ def import_into_hugo_notes(source_file):
         posts = json.loads(source.read())
         for post in posts:
             write_note_file(post.get('tweet'))
-            return
 
 
 if __name__ == '__main__':
