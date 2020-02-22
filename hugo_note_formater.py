@@ -27,6 +27,8 @@ def formater(tweet: Tweet) -> str:
 
 def format_title(tweet):
     title = tweet.text.split('\n')[0]
+    title = title.replace('"', '')
+    title = title.replace('\\', '\\\\')
     title = title.replace('[', '')
     title = title.replace(']', '')
     return title

@@ -25,6 +25,50 @@ Ceci est un petit tweet
     assert expected == tweet.format(formater)
 
 
+def test_format_simple_note_with_double_quotes():
+    tweet_dict = {
+        'id': '354957091389181952',
+        'created_at': 'Wed Jul 10 13:35:40 +0000 2013',
+        'full_text': 'Ceci est un "petit" tweet',
+    }
+
+    tweet = Tweet(tweet_dict, author='jpcaruana')
+
+    expected = """+++
+date = "2013-07-10T13:35:40Z"
+title = "Ceci est un petit tweet"
+categories = ["twitter"]
+tags = []
+original_url = "https://twitter.com/jpcaruana/status/354957091389181952"
++++
+
+Ceci est un "petit" tweet
+"""
+    assert expected == tweet.format(formater)
+
+
+def test_format_simple_note_with_anti_slash():
+    tweet_dict = {
+        'id': '354957091389181952',
+        'created_at': 'Wed Jul 10 13:35:40 +0000 2013',
+        'full_text': 'Ceci est un petit tweet \o/',
+    }
+
+    tweet = Tweet(tweet_dict, author='jpcaruana')
+
+    expected = """+++
+date = "2013-07-10T13:35:40Z"
+title = "Ceci est un petit tweet \\\\o/"
+categories = ["twitter"]
+tags = []
+original_url = "https://twitter.com/jpcaruana/status/354957091389181952"
++++
+
+Ceci est un petit tweet \o/
+"""
+    assert expected == tweet.format(formater)
+
+
 def test_format_simple_note_escape_crochets():
     tweet_dict = {
         'id': '354957091389181952',
@@ -52,6 +96,30 @@ def test_format_simple_note_with_two_lines():
         'id': '354957091389181952',
         'created_at': 'Wed Jul 10 13:35:40 +0000 2013',
         'full_text': 'Ligne 1\nLigne 2',
+    }
+
+    tweet = Tweet(tweet_dict, author='jpcaruana')
+
+    expected = """+++
+date = "2013-07-10T13:35:40Z"
+title = "Ligne 1"
+categories = ["twitter"]
+tags = []
+original_url = "https://twitter.com/jpcaruana/status/354957091389181952"
++++
+
+Ligne 1
+
+Ligne 2
+"""
+    assert expected == tweet.format(formater)
+
+
+def test_format_simple_note_with_two_lines_windows_carriage_return():
+    tweet_dict = {
+        'id': '354957091389181952',
+        'created_at': 'Wed Jul 10 13:35:40 +0000 2013',
+        'full_text': 'Ligne 1\rLigne 2',
     }
 
     tweet = Tweet(tweet_dict, author='jpcaruana')

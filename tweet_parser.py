@@ -38,7 +38,7 @@ class Tweet():
 
     @property
     def text(self) -> str:
-        return self.dict.get('full_text')
+        return self.dict.get('full_text').replace('\r', '\n')
 
     @property
     def lang(self) -> str:
@@ -47,10 +47,6 @@ class Tweet():
     @property
     def original_url(self) -> str:
         return format_tweet_url(self.author, self.id)
-
-    @property
-    def htmltext(self) -> str:
-        return self.dict.get('full_text')  # TODO
 
     @property
     def hashtags(self) -> Iterable[str]:
