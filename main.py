@@ -19,10 +19,9 @@ def write_note_file(tweet_dict):
         dest.writelines(tweet.format(note_formater))
 
 
-def write_bookmark_file(bookmark_dict):
-    bookmark = Bookmark(bookmark_dict)
+def write_bookmark_file(bookmark):
     dir_path = f"content/bookmarks/{bookmark.date.strftime('%Y/%m/%d')}"
-    file_path = f"{dir_path}/{bookmark.entry_id}"
+    file_path = f"{dir_path}/{bookmark.entry_id}.md"
     Path(dir_path).mkdir(parents=True, exist_ok=True)
     with open(file_path, 'w') as dest:
         dest.writelines(bookmark.format(bookmark_formater))
