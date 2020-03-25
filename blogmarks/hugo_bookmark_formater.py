@@ -17,17 +17,19 @@ bookmarktags = {tags}
 def formater(bookmark: Bookmark) -> str:
     return TEMPLATE.format(
         date=bookmark.date.strftime('%Y-%m-%dT%H:%M:%S+01:00'),
-        content=format_content(bookmark),
+        content=format_content(bookmark.comment),
         tags=format_list(bookmark.tags),
         url=bookmark.url,
-        title=bookmark.title
+        title=format_content(bookmark.title),
     )
 
 
-def format_content(bookmark: Bookmark) -> str:
-    content = bookmark.comment.replace('\n', '\n\n')
-    content = content.replace(r'[', '\\[')
-    content = content.replace(']', '\\]')
+def format_content(text: str) -> str:
+    content = text.replace('\n', '\n\n')
+    content = content.replace('"', '')
+    content = content.replace('\\', '\\\\')
+    content = content.replace('[', '')
+    content = content.replace(']', '')
     return content
 
 
