@@ -16,7 +16,7 @@ bookmarktags = {tags}
 
 def formater(bookmark: Bookmark) -> str:
     return TEMPLATE.format(
-        date=bookmark.date,
+        date=bookmark.date.strftime('%Y-%m-%dT%H:%M:%S+01:00'),
         content=format_content(bookmark),
         tags=format_list(bookmark.tags),
         url=bookmark.url,

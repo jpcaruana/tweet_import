@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from blogmarks.blogmarks_parser import Bookmark
 from blogmarks.hugo_bookmark_formater import formater
-
+from datetime import datetime
 
 def test_with_title():
     bookmark_dict = dict(
-        date="2020-03-22T19:49:57+01:00",
+        date=datetime(2020, 3, 22, 19, 49, 57, 1),
         url="https://keithjgrant.com/posts/2019/02/adding-webmention-support-to-a-static-site/",
         tags=["indieweb", "static", "webmentions"],
         title='Some title',
@@ -28,7 +28,7 @@ Adding Webmention Support to a Static Site
 
 def test_without_title():
     bookmark_dict = dict(
-        date="2020-03-22T19:49:57+01:00",
+        date=datetime(2020, 3, 22, 19, 49, 57, 1),
         url="https://keithjgrant.com/posts/2019/02/adding-webmention-support-to-a-static-site/",
         tags=["indieweb", "static", "webmentions"],
         comment="Adding Webmention Support to a Static Site"
