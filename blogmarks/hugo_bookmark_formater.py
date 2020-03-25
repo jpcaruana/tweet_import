@@ -23,7 +23,7 @@ def formater(bookmark: Bookmark) -> str:
 
 
 def format_content(bookmark: Bookmark) -> str:
-    content = bookmark.content.replace('\n', '\n\n')
+    content = bookmark.comment.replace('\n', '\n\n')
     content = content.replace(r'[', '\\[')
     content = content.replace(']', '\\]')
     return content

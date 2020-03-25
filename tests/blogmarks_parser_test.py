@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-ONE_BLOGMARK = """<entry>
+from blogmarks.blogmarks_parser import parser
+
+ONE_BLOGMARK = """
+<entry>
   <id>tag:blogmarks.net,2013:1058976312</id>
   <title>Films Noir et Blanc Format 120</title>
   <updated>2013-05-22T18:12:48Z</updated>
@@ -24,7 +27,8 @@ ONE_BLOGMARK = """<entry>
   </activity:object>
 </entry>"""
 
-ONE_BLOGMARK_WITH_COMMENT = """<entry>
+ONE_BLOGMARK_WITH_COMMENT = """
+<entry>
   <id>tag:blogmarks.net,2013:1058948771</id>
   <title>darktable | the photo workflow software</title>
   <updated>2013-01-23T18:40:51Z</updated>
@@ -48,10 +52,10 @@ ONE_BLOGMARK_WITH_COMMENT = """<entry>
   <activity:object>
     <activity:object-type>http://activitystrea.ms/schema/1.0/bookmark</activity:object-type>
   </activity:object>
-</entry>
-"""
+</entry>"""
 
-one_blogmark_with_private_tag = """<entry>
+ONE_BLOGMARK_WITH_PRIVATE_TAG = """
+<entry>
   <id>tag:blogmarks.net,2013:1058976312</id>
   <title>Films Noir et Blanc Format 120</title>
   <updated>2013-05-22T18:12:48Z</updated>
@@ -76,7 +80,7 @@ one_blogmark_with_private_tag = """<entry>
   </activity:object>
 </entry>"""
 
-FULL_IMPORT_FILE = """<?xml version="1.0" encoding="UTF-8"?>
+FULL_IMPORT_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:bm="http://blogmarks.net/ns/" xmlns:openSearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:app="http://www.w3.org/2007/app" xmlns:activity="http://activitystrea.ms/spec/1.0/" >
 
@@ -90,5 +94,42 @@ FULL_IMPORT_FILE = """<?xml version="1.0" encoding="UTF-8"?>
 
   <link rel="self" type="application/atom+xml" href="http://blogmarks.net/api/user/jpcaruana/marks/?last=100000&amp;includePrivates=1&amp;format=atom" title="Mes marks"/>
   <link rel="alternate" type="text/html" href="http://blogmarks.net/my/marks/?last=100000&amp;includePrivates=1" title="Mes marks"/>
-""" + ONE_BLOGMARK + ONE_BLOGMARK_WITH_COMMENT + """
+
+{entry}
+
 </feed>"""
+
+
+def test_parse_one_mark():
+    entries = parser(FULL_IMPORT_TEMPLATE.format(entry=ONE_BLOGMARK))
+
+    entry = next(entries)
+    assert entry.entry_id == '1058976312'
+    assert entry.url == "http://www.photostock.fr/films-noir-et-blanc-format-120,fr,3,179.cfm"
+    assert entry.title == "Films Noir et Blanc Format 120"
+    assert entry.tags == ['photographie', 'lomo']
+    # assert entry.date == datetime.datetime(2013, 5, 22, 18, 12, 48)
+
+
+def test_do_not_parse_private_tags():
+    entries = parser(FULL_IMPORT_TEMPLATE.format(entry=ONE_BLOGMARK_WITH_PRIVATE_TAG))
+
+    entry = next(entries)
+    assert entry.entry_id == '1058976312'
+    assert entry.url == "http://www.photostock.fr/films-noir-et-blanc-format-120,fr,3,179.cfm"
+    assert entry.title == "Films Noir et Blanc Format 120"
+    assert entry.tags == ['photographie', 'lomo']
+
+
+def test_parse_comment():
+    entries = parser(FULL_IMPORT_TEMPLATE.format(entry=ONE_BLOGMARK_WITH_COMMENT))
+
+    entry = next(entries)
+    assert entry.entry_id == '1058948771'
+    assert entry.url == "http://www.darktable.org/"
+    assert entry.title == "darktable | the photo workflow software"
+    assert entry.tags == ['photographie', "open source", 'apps']
+    assert entry.comment == 'darktable is an open source photography workflow application and RAW developer. ' \
+                            'A virtual lighttable and darkroom for photographers. It manages your digital negatives' \
+                            ' in a database, lets you view them through a zoomable lighttable and enables you to ' \
+                            'develop raw images and enhance them.'

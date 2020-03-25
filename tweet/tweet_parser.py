@@ -14,7 +14,7 @@ def format_tweet_url(author: str, tweet_id: str) -> str:
     return f"https://twitter.com/{author}/status/{tweet_id}"
 
 
-class Tweet():
+class Tweet:
     def __init__(self, tweet_as_dict: dict, author: str):
         """
         Create a tweet from its representation (use json.loads with the exported js from Twitter
