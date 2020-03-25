@@ -22,9 +22,9 @@ def main():
     pass
 
 
-@main.command('import-into-hugo-notes')
+@main.command('import-tweets-into-hugo-notes')
 @click.argument('source_file')
-def import_into_hugo_notes(source_file):
+def import_tweets_into_hugo_notes(source_file):
     with open(source_file, 'r') as source:
         posts = json.loads(source.read())
         for post in posts:
