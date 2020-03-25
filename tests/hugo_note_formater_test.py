@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from hugo_note_formater import formater
-from tweet_parser import Tweet
+from tweet.hugo_note_formater import formater
+from tweet.tweet_parser import Tweet
 
 
 def test_format_simple_note():

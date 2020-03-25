@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from blogmarks_parser import Bookmark
-from hugo_bookmark_formater import formater
+from blogmarks.blogmarks_parser import Bookmark
+from blogmarks.hugo_bookmark_formater import formater
 
 
 def test_x():

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from tweet_parser import Tweet
+from tweet.tweet_parser import Tweet
 
 
 def test_read_tweet_rt():

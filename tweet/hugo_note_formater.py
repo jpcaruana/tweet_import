@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Iterable
 
-from tweet_parser import Tweet
+from tweet.tweet_parser import Tweet
 
 TEMPLATE = """+++
 date = "{date}"

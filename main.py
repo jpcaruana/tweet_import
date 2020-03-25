@@ -4,8 +4,8 @@ from pathlib import Path
 
 import click
 
-import hugo_note_formater
-from tweet_parser import Tweet
+from tweet import hugo_note_formater
+from tweet.tweet_parser import Tweet
 
 
 def write_note_file(tweet_dict):

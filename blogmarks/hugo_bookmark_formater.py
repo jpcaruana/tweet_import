@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Iterable
 
-from blogmarks_parser import Bookmark
+from blogmarks.blogmarks_parser import Bookmark
 
 TEMPLATE = """+++
 date = "{date}"
