@@ -6,6 +6,7 @@ from blogmarks.blogmarks_parser import Bookmark
 TEMPLATE = """+++
 date = "{date}"
 signet = "{url}"
+title = "{title}"
 bookmarktags = {tags}
 +++
 
@@ -19,6 +20,7 @@ def formater(bookmark: Bookmark) -> str:
         content=format_content(bookmark),
         tags=format_list(bookmark.tags),
         url=bookmark.url,
+        title=bookmark.title
     )
 
 

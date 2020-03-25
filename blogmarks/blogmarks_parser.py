@@ -36,7 +36,7 @@ class Bookmark:
 
     @property
     def title(self) -> str:
-        return self.dict.get('title')
+        return self.dict.get('title', '')
 
     @property
     def tags(self) -> Iterable[str]:
